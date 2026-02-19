@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rosales National High School</title>  
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff0f6;
+    color: #4a0e4e;
+}
+h1,h2,h3,h4 { margin: 0 0 10px; }
+
+header {
+    background: linear-gradient(to right, #9c27b0, #e91e63);
+    padding: 15px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.logo-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+.logo-area img { width: 50px; border-radius: 5px; }
+.logo-area h1 { color: #fff; font-size: 42px; font-weight: bold; }
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 0;
+    position: relative;
+    border-bottom: 3px solid #f06292;
+}
+nav a, .dropbtn { text-decoration: none; color: #8e24aa; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+nav a:hover, .dropbtn:hover { background-color: #f06292; color: #fff; }
+
+.dropdown { position: relative; }
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 160px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+}
+.dropdown-content.show { display: block; }
+.dropdown-content a { display: block; padding: 10px 15px; color: #8e24aa; }
+
+.hero { position: relative; width: 100%; height: 350px; border-bottom: 5px solid #9c27b0; }
+.hero img { width: 100%; height: 100%; object-fit: cover; filter: brightness(70%); }
+.hero-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; text-align: center; }
+
+.content { padding: 40px 20px; max-width: 1000px; margin: auto; position: relative; }
+
+#loader {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255, 240, 246, 0.9);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f8bbd0;
+    border-top: 5px solid #9c27b0;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+.page { display: none; background: #fff; padding: 30px; border-radius: 10px; border: 1px solid #f8bbd0; }
+.page.active { display: block; animation: fadeIn 0.5s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.strand-logo { width: 80px; height: 80px; margin-bottom: 15px; }
+
+.back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #9c27b0;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+}
+footer { background: linear-gradient(to right, #9c27b0, #e91e63); color: #fff; text-align: center; padding: 20px; }
+
+.facility-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 30px; }
+.facility { background: #fff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 300px; padding: 20px; text-align: center; border: 2px solid #fce4ec; }
+.facility img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
+.facility h3 { color: #9c27b0; margin-bottom: 10px; font-size: 18px; }
+
+.resume-container { background:#ffe6f0; padding:20px; border-radius:12px; border: 2px solid #ff66a3; margin-top:20px; }
+.resume-container table { width:100%; border-collapse:collapse; background:#fff; margin-bottom:15px; }
+.resume-container th { background:#ff66a3; color:white; padding:12px; text-align:left; }
+.resume-container td { padding:12px; border-bottom:1px solid #ff99c2; }
+#toggleResume { padding:12px 20px; background:linear-gradient(to right, #e91e63, #9c27b0); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold; }
+</style>
+</head>
+
+<body>
+
+<div id="loader"><div class="spinner"></div></div>
+
+<header>
+    <div class="logo-area">
+        <img src="rnhs logo.jpg" alt="RNHS Logo">
+        <h1>RNHS</h1>
+    </div>
+
+    <nav>
+        <a onclick="triggerLoader('home')">Home</a>
+        <a onclick="triggerLoader('mission')">Mission & Vision</a>
+        <div class="dropdown">
+            <a class="dropbtn" onclick="toggleDropdown(event)">Strands ▼</a>
+            <div class="dropdown-content">
+                <a onclick="triggerLoader('stem')">STEM</a>
+                <a onclick="triggerLoader('humss')">HUMSS</a>
+                <a onclick="triggerLoader('abm')">ABM</a>
+                <a onclick="triggerLoader('tvl')">TVL</a>
+            </div>
+        </div>
+        <a onclick="triggerLoader('events')">Events</a>
+        <a onclick="triggerLoader('contact')">Contact</a>
+        <a onclick="triggerLoader('about')">About Us</a>
+        <a href="login.html">Log-out</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <img src="principaloffice.jpg" alt="School Image">
+    <div class="hero-text">
+        <h2>Rosales National High School</h2>
+        <p>Official Website</p>
+    </div>
+</div>
+
+<div class="content">
+
+<div id="home" class="page active">
+<h2>Welcome to RNHS</h2>
+<p>Rosales National High School is committed to providing quality education and developing responsible citizens.</p>
+<section class="facilities">
+    <h2>Explore Our Facilities</h2>
+    <div class="facility-container">
+        <div class="facility">
+            <img src="library.jpg" alt="Library">
+            <h3>LIBRARY</h3>
+            <p>Our library is a haven for students seeking knowledge, equipped with books and resources.</p>
+        </div>
+        <div class="facility">
+            <img src="pagcor.jpg" alt="Pagcor Area">
+            <h3>PAGCOR BUILDING</h3>
+            <p>Welcome to our school's pagcor building area offers a vibrant hub of activity. Its well-maintained grounds provide a tranquil space for students and staff, while the building itself houses essential resources.</p>
+        </div>
+        <div class="facility">
+            <img src="jh.jpg" alt="Junior high Bldg. Area">
+            <h3>JUNIOR HIGH BUILDING</h3>
+            <p>Welcome to our school's junior high building buzzes with youthful energy. Bright classrooms hum with learning, while hallways echo with laughter and friendly chatter.</p>
+        </div>
+        <div class="facility">
+            <img src="stemb.jpg" alt="Stem Bldg. Area">
+            <h3>STEM BUILDING</h3>
+            <p>Welcome to our school's stem building sprawling stem area hums with youthful energy. Modern labs gleam, filled with the quiet intensity of students exploring science and technology.</p>
+        </div>
+        <div class="facility">
+            <img src="rnhs gymnasium.jpg" alt="School Gymnasium">
+            <h3>SCHOOL GYMNASIUM</h3>
+            <p>State-of-the-art gym for fitness, strength, and sports activities.</p>
+        </div>
+        <div class="facility">
+            <img src="tambayan.jpg" alt="Lounge Area">
+            <h3>LOUNGE AREA</h3>
+            <p>Relaxing lounge area for students to socialize and rejuvenate.</p>
+        </div>
+    </div>
+</section>
+
+<div style="text-align:center; margin:30px 0;">
+    <button id="toggleResume">Click My Resume</button>
+</div>
+
+<div id="myResume" class="resume-container" style="display:none;">
+    <div style="text-align:center;">
+        <div style="font-size:28px; color:#ff66a3; font-weight:bold;">Rafaela Glace G. Caoayan</div>
+        <p>Brgy. Carmen East, Zone-1, Rosales, Pangasinan<br>09050683903<br>rafaelacaoayan.email@gmail.com</p>
+        <img src="mypic.jpg" alt="Profile" style="width:150px; border-radius:5px; border:4px solid #ff66a3;">
+    </div>
+    <h2>Objective</h2>
+    <p>To gain practical experience as an Encoder Intern where I can apply my knowledge, improve my data management skills, and contribute to the efficient operation of the office while learning valuable workplace skills.</p>
+    <h2>Personal Information</h2>
+    <table>
+        <tr><th>Detail</th><th>Information</th></tr>
+        <tr><td>Date of Birth</td><td>January 11, 2008</td></tr>
+        <tr><td>Age</td><td>17</td></tr>
+        <tr><td>Gender</td><td>Female</td></tr>
+        <tr><td>Nationality</td><td>Filipino</td></tr>
+    </table>
+    <h2>Educational Background</h2>
+    <table>
+        <tr><th>Level</th><th>School / Year</th></tr>
+        <tr><td>Senior High School</td><td>Technical Vocational Livelihood (TVL) RNHS (2024-2025)</td></tr>
+        <tr><td>Junior High School</td><td>Robert Memorial High School (2022-2023)</td></tr>
+    </table>
+    <div style="text-align:center; background:#ffd9e6; padding:15px; border-radius:10px; margin-top:20px;">
+        <p>I hereby declare that the information provided in this resume is true and accurate...</p>
+        <p><u>Rafaela Glace G. Caoayan</u><br>Applicant</p>
+    </div>
+</div>
+</div> 
+
+<div id="mission" class="page">
+    <section>
+        <h2>The DepEd Vision</h2>
+        <p>We dream of Filipinos who passionately love their country and whose values and competencies enable them to realize their full potential and contribute meaningfully to building the nation.</p>
+    </section>
+    <section>
+        <h2>The DepEd Mission</h2>
+        <p>To protect and promote the right of every Filipino to quality, equitable, culture-based, and complete basic education where: Students learn in a child-friendly, gender-sensitive, safe, and motivating environment. Teachers facilitate learning and constantly nurture every learner.</p>
+    </section>
+    <section>
+        <h2>Our Core Values</h2>
+        <p>Maka-Diyos, Makatao, Makakalikasan, Makabansa</p>
+    </section>
+    <a class="back-btn" onclick="triggerLoader('home')">Back</a>
+</div>
+
+<div id="stem" class="page">
+    <div style="text-align:center;">
+        <svg class="strand-logo" viewBox="0 0 24 24" fill="#9c27b0"><path d="M19,3H5V5H19V3M19,19H5V21H19V19M6.05,7.05L4.64,8.46L11.21,15.03L12.62,13.62L6.05,7.05M17.95,7.05L11.38,13.62L12.79,15.03L19.36,8.46L17.95,7.05Z"/></svg>
+    </div>
+    <h2>STEM Strand</h2>
+    <p>The STEM (Science, Technology, Engineering, and Mathematics) strand in our Academic Track is tailored for students passionate about science and technology. This program prepares them for future careers in fields such as engineering, computer science, biology, and physics.</p>
+    <a class="back-btn" onclick="triggerLoader('home')">Back</a>
+</div>
+
+<div id="humss" class="page">
+    <div style="text-align:center;">
+        <svg class="strand-logo" viewBox="0 0 24 24" fill="#e91e63"><path d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z"/></svg>
+    </div>
+    <h2>HUMSS Strand</h2>
+    <p>The HUMSS (Humanities and Social Sciences) strand in our Academic Track is tailored for students who love literature, social studies, and the arts. It is designed for those who intend to take up journalism, communication arts, liberal arts, education, and other social science-related courses in college.</p>
+    <a class="back-btn" onclick="triggerLoader('home')">Back</a>
+</div>
+
+<div id="abm" class="page">
+    <div style="text-align:center;">
+        <svg class="strand-logo" viewBox="0 0 24 24" fill="#9c27b0"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,17V16H9V14H13V13H10A1,1 0 0,1 9,12V9A1,1 0 0,1 10,8H11V7H13V8H15V10H11V11H14A1,1 0 0,1 15,12V15A1,1 0 0,1 14,16H13V17H11Z"/></svg>
+    </div>
+    <h2>ABM Strand</h2>
+    <p>Accountancy, Business, and Management is designed to prepare students for business-related college courses. It focuses on developing analytical skills, leadership, and practical business knowledge for future managers, accountants, or business owners.</p>
+    <a class="back-btn" onclick="triggerLoader('home')">Back</a>
+</div>
+
+<div id="tvl" class="page">
+    <div style="text-align:center;">
+        <svg class="strand-logo" viewBox="0 0 24 24" fill="#e91e63"><path d="M22.7,19L13.6,9.9C14.5,7.6 14,4.9 12.1,3C10.1,1 7.1,0.6 4.7,1.7L9,6L6,9L1.6,4.7C0.4,7.1 0.9,10.1 2.9,12.1C4.8,14 7.5,14.5 9.8,13.6L18.9,22.7C19.3,23.1 19.9,23.1 20.3,22.7L22.6,20.4C23.1,20 23.1,19.3 22.7,19Z"/></svg>
+    </div>
+    <h2>TVL Strand</h2>
+    <p>The TVL Track is designed for students with a practical and hands-on approach to learning. Students can specialize in ICT, Home Economics, and SMAW, preparing them for immediate employment or further technical studies.</p>
+    <a class="back-btn" onclick="triggerLoader('home')">Back</a>
+</div>
+
+<div id="events" class="page">
+    <h2>School Events</h2>
+    <p>Upcoming and past school activities such as Foundation Day, Intramurals, and Graduation Ceremonies will be posted here. Stay tuned for updates!</p>
+    <a class="back-btn" onclick="triggerLoader('home')">Back</a>
+</div>
+
+<div id="contact" class="page">
+    <h2>Contact Us</h2>
+    <p><strong>Email:</strong> info@rosalesnhs.edu.ph</p>
+    <p><strong>Address:</strong> Rosales, Pangasinan, Philippines</p>
+    <p><strong>Phone:</strong> (075) 123-4567</p>
+    <a class="back-btn" onclick="triggerLoader('home')">Back</a>
+</div>
+
+<div id="about" class="page">
+    <h2>About Us</h2>
+    <p>Rosales National High School is a public secondary school in Pangasinan dedicated to academic excellence, character building, and community service. We provide a supportive environment where every student can excel.</p>
+    <div style="text-align:center; margin-top:20px;">
+        <button class="back-btn" style="border:none;" onclick="triggerLoader('rules')">View School Rules & Regulations</button>
+    </div>
+    <br>
+    <a class="back-btn" onclick="triggerLoader('home')">Back to Home</a>
+</div>
+
+<div id="rules" class="page">
+    <h2 style="color: #9c27b0; border-bottom: 2px solid #9c27b0; padding-bottom: 10px;">School Rules & Regulations</h2>
+    <div class="facility-container" style="align-items: flex-start;">
+        <div class="facility" style="width: 45%; text-align: left;">
+            <h3 style="background: #9c27b0; color: #fff; padding: 5px; border-radius: 4px;">General Entry</h3>
+            <ul>
+                <li>Only one gate for entrance and exit.</li>
+                <li>Valid school ID must be worn at all times.</li>
+                <li>Arrive on time for Flag Ceremony.</li>
+            </ul>
+        </div>
+        <div class="facility" style="width: 45%; text-align: left;">
+            <h3 style="background: #9c27b0; color: #fff; padding: 5px; border-radius: 4px;">Prohibitions</h3>
+            <ul>
+                <li>Fraternities/Sororities are strictly banned.</li>
+                <li>Cell phone use is banned during class hours.</li>
+                <li>Vandalism is strictly punishable.</li>
+            </ul>
+        </div>
+    </div>
+    <a class="back-btn" onclick="triggerLoader('about')">Back to About Us</a>
+</div>
+
+</div> 
+
+<footer>
+    <h3>About us</h3>
+    <p>Rosales National High School (RNHS) is a public secondary educational institution located in Rosales, Pangasinan. The school was established to provide quality and affordable education to its residents.</p>
+    <p>&copy; 2026 Rosales National High School. All rights reserved By: Rafaela Glace G. Caoayan</p>
+</footer>
+
+<script>
+function triggerLoader(pageId) {
+    const loader = document.getElementById('loader');
+    loader.style.display = 'flex';
+    setTimeout(() => {
+        loader.style.display = 'none';
+        showPage(pageId);
+    }, 600);
+}
+
+function showPage(pageId){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    document.querySelectorAll('.dropdown-content').forEach(dd=>dd.classList.remove('show'));
+    window.scrollTo(0, 0);
+}
+
+function toggleDropdown(event){
+    event.preventDefault();
+    event.target.nextElementSibling.classList.toggle("show");
+}
+
+window.onclick=function(e){
+    if(!e.target.matches('.dropbtn')){
+        document.querySelectorAll('.dropdown-content').forEach(dd=>dd.classList.remove('show'));
+    }
+}
+
+document.getElementById('toggleResume').addEventListener('click', function(){
+    const resume = document.getElementById('myResume');
+    resume.style.display = (resume.style.display === 'none') ? 'block' : 'none';
+    this.textContent = (resume.style.display === 'none') ? 'Click My Resume' : 'Hide My Resume';
+});
+</script>
+</body>
+</html>
